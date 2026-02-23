@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Nagpur Naukri Hub",
+    "slug": "nagpur-naukri-hub",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.nagpurnaukrihub.app",
+      "versionCode": 1,
+      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "CAMERA"]
+    },
+    "extra": {
+      "firebaseApiKey": "AIzaSyDjm24ioJvvWpLIzA-fl1O-FKmc_qYNRaI",
+      "projectId": "nagpur-naukri-hub-af25b"
+    }
+  }
+}

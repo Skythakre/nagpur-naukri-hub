@@ -1,0 +1,14 @@
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDjm24ioJvvWpLIzA-fl1O-FKmc_qYNRaI",
+  authDomain: "nagpur-naukri-hub-af25b.firebaseapp.com",
+  projectId: "nagpur-naukri-hub-af25b",
+  storageBucket: "nagpur-naukri-hub-af25b.firebasestorage.app",
+  messagingSenderId: "138305634056",
+  appId: "1:138305634056:web:15f2d283903a1d6ba6f6bd"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);

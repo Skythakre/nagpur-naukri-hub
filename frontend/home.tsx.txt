@@ -1,0 +1,86 @@
+home.tsx
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Linking, TextInput } from 'react-native';
+
+// Sample Jobs Data (Kal hum ise backend se connect karenge)
+const NAGPUR_JOBS = [
+  { id: '1', title: 'Data Entry Operator', company: 'MIHAN SEZ', area: 'MIHAN', salary: '₹15,000', phone: '+918799901744' },
+  { id: '2', title: 'Delivery Executive', company: 'Nagpur Logistics', area: 'Wadi', salary: '₹12,000 + Petrol', phone: '+918799901744' },
+  { id: '3', title: 'Sales Manager', company: 'Central Mall', area: 'Dharampeth', salary: '₹25,000', phone: '+918799901744' },
+  { id: '4', title: 'Office Assistant', company: 'Govt. Contractor', area: 'Sitabuldi', salary: '₹18,000', phone: '+918799901744' },
+];
+
+export default function HomeScreen() {
+  const [search, setSearch] = useState('');
+  const [filteredJobs, setFilteredJobs] = useState(NAGPUR_JOBS);
+
+  // Search Filter Logic
+  const handleSearch = (text: string) => {
+    setSearch(text);
+    const filtered = NAGPUR_JOBS.filter(job => 
+      job.area.toLowerCase().includes(text.toLowerCase()) || 
+      job.title.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredJobs(filtered);
+  };
+
+  // WhatsApp par apply karne ka logic
+  const applyOnWhatsApp = (phone: string, title: string) => {
+    const url = `whatsapp://send?phone=${phone}&text=Hello, I saw your job posting for '${title}' on Nagpur Naukri Hub. I am interested!`;
+    Linking.openURL(url).catch(() => {
+      alert("WhatsApp install nahi hai!");
+    });
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Nagpur Jobs 📍</Text>
+      
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Area search karein (e.g. MIHAN, Wadi)..."
+        value={search}
+        onChangeText={handleSearch}
+      />
+
+      <FlatList
+        data={filteredJobs}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.jobCard}>
+            <View>
+              <Text style={styles.jobTitle}>{item.title}</Text>
+              <Text style={styles.company}>{item.company}</Text>
+              <Text style={styles.area}>📍 {item.area}</Text>
+              <Text style={styles.salary}>💰 {item.salary}</Text>
+            </View>
+            
+            <TouchableOpacity 
+              style={styles.applyButton}
+              onPress={() => applyOnWhatsApp(item.phone, item.title)}
+            >
+              <Text style={styles.applyText}>Apply</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 15, backgroundColor: '#F5F5F5' },
+  header: { fontSize: 24, fontWeight: 'bold', color: '#333', marginBottom: 15, marginTop: 40 },
+  searchBar: { backgroundColor: '#fff', padding: 12, borderRadius: 10, marginBottom: 20, elevation: 2 },
+  jobCard: { 
+    backgroundColor: '#fff', padding: 15, borderRadius: 12, marginBottom: 15, 
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    elevation: 3
+  },
+  jobTitle: { fontSize: 18, fontWeight: 'bold', color: '#FF8C00' },
+  company: { fontSize: 14, color: '#666', marginTop: 2 },
+  area: { fontSize: 14, color: '#444', marginTop: 5 },
+  salary: { fontSize: 14, fontWeight: '600', color: '#2E8B57', marginTop: 3 },
+  applyButton: { backgroundColor: '#25D366', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8 },
+  applyText: { color: '#fff', fontWeight: 'bold' }
+});
